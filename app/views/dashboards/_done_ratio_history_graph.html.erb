@@ -1,0 +1,64 @@
+<% content_for(:header_tags) do %>
+<script type="text/javascript" src="/plugin_assets/redmine_backlogs/javascripts/jquery/jquery.jqplot/plugins//jqplot.highlighter.min.js"></script>
+<script type="text/javascript" src="/plugin_assets/redmine_backlogs/javascripts/jquery/jquery.jqplot/plugins//jqplot.cursor.min.js"></script>
+<script type="text/javascript" src="/plugin_assets/redmine_backlogs/javascripts/jquery/jquery.jqplot/plugins//jqplot.dateAxisRenderer.min.js"></script>
+
+<style>
+  table.progress td.done {
+    background: #4BB2C5 none repeat scroll 0%;
+  }
+
+  table.progress td.closed {
+    background: #EAA228 none repeat scroll 0%;
+  }
+</style>
+
+<script>
+  jQuery(document).ready(function(){
+          
+    var openData =[
+      <%- @open_issues.each do |item| -%>
+        [ '<%= item[0] %>', <%= item[1] %> ], 
+      <%- end -%>
+    ];
+
+    var closedData =[
+      <%- @closed_issues.each do |item| -%>
+        [ '<%= item[0] %>', <%= item[1] %> ], 
+      <%- end -%>
+    ];
+    
+    var historyPlot = jQuery.jqplot('historychart', [openData, closedData ], {
+        title:'Histórico do Total de Tarefas',
+        axes:{
+          xaxis:{
+            renderer:jQuery.jqplot.DateAxisRenderer,
+            tickOptions:{
+              formatString:'%b&nbsp;%#d'
+            },             
+          },
+          yaxis:{
+            tickOptions:{
+              formatString:'%.2f'
+            },
+            min: 0,            
+          }
+        },
+        highlighter: {
+          show: true,
+          sizeAdjust: 7.5
+        },
+        cursor: {
+          show: false
+        },
+        legend: { show:true, location: 'e' },        
+        seriesColors: [ "#4BB2C5", "#EAA228" ], 
+        series: [ { label: 'Pendente' }, { label: 'Terminado' } ],
+
+    });
+  });
+</script>
+
+<% end %>
+
+<div id="historychart"></div>

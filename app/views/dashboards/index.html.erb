@@ -1,0 +1,19 @@
+<h3>Dashboard de Projetos</h3>
+<%= render :partial => "done_ratio_graph" %>
+<%= render :partial => "done_ratio_history_graph" %>
+
+</br>
+<div id="resume"  class="issues box"> 
+  <h3>Sumário de Tarefas</h3>     
+  <ul>        
+    <li>Aguardando</a>: <%= @waiting %></li>   
+    <li>Em execu&ccedil;&atilde;o</a>:  <%= @running %></li>   
+    <li>Finalizadas</a>:  <%= @completed %></li>   
+    <li>Total</a>:  <%= @total %></li>   
+  </ul>   
+</div>
+
+<%= render :partial => "list" %>
+
+<% content_for :sidebar do %>
+<% end %>

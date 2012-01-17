@@ -1,0 +1,59 @@
+<div class="autoscroll">
+  <table class="list issues"
+      <thead>
+        <th title="Ordernar por &quot;#&quot;">
+          <a href="#" class="">#</a>
+        </th>
+        <th title="Ordernar por &quot;Tarefa&quot;" style="text-align: left;">
+          <a href="#" class="sort desc">Tarefa</a>
+        </th>
+        <th title="Ordernar por &quot;Stitua&ccedil;&atilde;o&quot;">
+          <a href="#" class="">Stitua&ccedil;&atilde;o</a>
+        </th>
+        <th title="Ordernar por &quot;Prioridade&quot;">
+          <a href="#" class="">Prioridade</a>
+        </th>
+        <th title="Ordernar por &quot;Terminado&quot;">
+          <a href="#" class="">Terminado</a>
+        </th>
+      </thead>
+
+      <tfoot>
+        <tr style="background-color: #EEE; font-weight: bold;">
+          <td colspan="4">
+            <span><%=h @issue_count %> tarefas</span>
+          </td>
+          <td style="text-align: right;">
+            <%= "#{h(number_with_precision(@done_ratio.to_f, :precision => 2))}%" %>
+          </td>
+        </tr>
+      </tfoot>
+
+      <tbody>
+      <% reset_cycle %>
+      <% @issues.each do |issue| %>        
+        <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
+          <td class="id">
+            <%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %>
+          </td>
+          <td class="project" style="width: 100%; text-align: left;">
+            <%= link_to truncate("#{issue.tracker}: #{issue.subject}", 65), :controller => 'issues', :action => 'show', :id => issue %>
+          </td>
+          <td class="status">
+            <%= link_to(h(issue.status), :controller => 'issues', :action => 'show', :id => issue) %>
+          </td>
+          <td class="priority">
+            <%= link_to(h(issue.priority), :controller => 'issues', :action => 'show', :id => issue) %>
+          </td>
+          <td class="done_ratio">
+            <%= progress_bar([issue.done_ratio, 100], :width => '80px') %>                               
+          </td>
+        </tr>    
+        <% end %>    
+      </tbody>     
+  </table>
+</div>
+
+<p class="pagination">
+  <%= pagination_links_full @issue_pages, @issue_count %>
+</p>

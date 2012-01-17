@@ -1,0 +1,42 @@
+<% content_for(:header_tags) do %>
+<script type="text/javascript" 
+  src="/plugin_assets/redmine_backlogs/javascripts/jquery/jquery.jqplot/plugins/jqplot.pieRenderer.min.js" ></script>
+
+<style>
+  table.progress td.done {
+    background: #4BB2C5 none repeat scroll 0%;
+  }
+
+  table.progress td.closed {
+    background: #EAA228 none repeat scroll 0%;
+  }
+</style>
+
+<script>
+  jQuery(document).ready(function(){
+    var ratioData = [      
+      ['Pendente', <%= @remaining_ratio %>],
+      ['Terminado', <%= @done_ratio %> ],
+    ];
+    var ratioPlot = jQuery.jqplot ('ratiochart', [ratioData], 
+      {         
+        title:'Total de Tarefas',
+        // stackSeries: true, 
+        seriesDefaults: {
+          // Make this a pie chart.
+          renderer: jQuery.jqplot.PieRenderer, 
+          rendererOptions: {
+            // Put data labels on the pie slices.
+            // By default, labels show the percentage of the slice.
+            showDataLabels: true,            
+          }
+        }, 
+        legend: { show:true, location: 'e' },
+        seriesColors: [ "#4BB2C5", "#EAA228" ], 
+      }
+    );
+  });
+</script>
+<% end %>
+
+<div id="ratiochart"></div>  

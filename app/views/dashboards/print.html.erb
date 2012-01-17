@@ -1,0 +1,75 @@
+<h2>Lista de Projetos</h2>
+
+<% @group_status.each do |status| %>
+	<div id="roadmap">
+	<% if status.empty? %>
+		<h3 class="project">
+			<%= link_to status.name, status.project %>						
+		</h3>
+		<p>Sem data de previsão</p>
+	<% else %>
+   		<h3 class="project">
+			<%= tag 'a', :name => status.name %>
+			<%= link_to status.name, status.project %>	
+		</h3>
+	    <% if status.completed? %>
+		  <p><%= format_date(status.effective_date) %></p>
+		<% elsif status.effective_date %>
+		  <p>
+			<strong><%= due_date_distance_in_words(status.effective_date) %></strong> (<%= format_date(status.effective_date) %>)
+			</p>
+		<% end %>
+		
+		<% if status.fixed_issues.count > 0 %>
+		    <%= progress_bar([status.closed_pourcent, status.completed_pourcent], :width => '40em', :legend => ('%0.0f%' % status.completed_pourcent)) %>
+		    <p class="progress-info">
+		        
+		    </p>
+		    <div id="project_<%= status.project.id %>_versions" class="status_detail"
+		    	style="border: 1px solid #507AAA; padding: 4px 8px 4px; margin-bottom: 18px;">
+		    	<a href="/dashboards/show/<%= status.project.id %>">Visualizar detalhes...</a>					    	
+		    </div>	
+		<% else %>
+		    <p><em><%= l(:label_roadmap_no_issues) %></em></p>
+		<% end %>	
+		
+		
+	<% end %>
+	</div>
+	
+<% end %>
+
+
+
+<% content_for :sidebar do %>
+	<% @group_status.each do |status| %>
+		<%
+			cond = status.project.project_condition(Setting.display_subprojects_issues?)
+		
+			if User.current.allowed_to?(:view_time_entries, status.project)
+      			total_hours = TimeEntry.visible.sum(:hours, :include => :project, :conditions => cond).to_f
+    		end		
+		%>
+	
+    	<% if total_hours.present? %>
+	    <h3><%= status.name %></h3>
+	    <p><span class="icon icon-time"><%= l_hours(total_hours) %></span></p>
+	    <p><%= link_to(l(:label_details), {:controller => 'timelog', :action => 'index', :project_id => status.project}) %> |
+	    <%= link_to(l(:label_report), {:controller => 'time_entry_reports', :action => 'report', :project_id => status.project}) %></p>
+	    <% end %>
+	    <%= call_hook(:view_projects_show_sidebar_bottom, :project => status.project) %>
+	<% end %>	
+<% end %>
+
+
+<% content_for :header_tags do %>
+	<%= stylesheet_link_tag 'ebc', :plugin => 'redmine_ebc' %>
+<% end %>
+
+<script>
+	jQuery('.status_detail a').live("click", function() {		
+		jQuery.getScript(this.href);
+		// jQuery(this).hide();			
+		return false;
+	});
+</script>
