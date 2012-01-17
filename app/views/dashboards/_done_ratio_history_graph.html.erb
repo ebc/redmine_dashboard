@@ -29,7 +29,7 @@
     ];
     
     var historyPlot = jQuery.jqplot('historychart', [openData, closedData ], {
-        title:'Histórico do Total de Tarefas',
+        title:'Histórico - Quantidade Total de Tarefas',
         axes:{
           xaxis:{
             renderer:jQuery.jqplot.DateAxisRenderer,
@@ -39,9 +39,11 @@
           },
           yaxis:{
             tickOptions:{
-              formatString:'%.2f'
+              formatString:'%d',              
             },
             min: 0,            
+            labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
+            // label: 'Tarefas',
           }
         },
         highlighter: {
