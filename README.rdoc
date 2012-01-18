@@ -1,3 +1,0 @@
-= ebc
-
-Description goes here
