@@ -40,6 +40,10 @@ class DashboardsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404    
   end 
+
+  def collaborators
+
+  end
   
 private
   def find_project    
