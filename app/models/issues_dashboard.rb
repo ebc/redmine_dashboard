@@ -78,4 +78,26 @@ class IssuesDashboard
 
     { :open_issues_count =>  open_issues_count, :closed_issues_count => closed_issues_count }
   end
+
+  def self.created_issues_by_date(from, to)
+    if from && to  
+      sql = "
+        SELECT SUM(subtotal) total, dates.created 
+        FROM ( 
+          SELECT COUNT(id) subtotal, date(created_on) as created 
+          FROM #{Isssue.table_name} 
+          WHERE created_on BETWEEN \'#{from}\' AND \'#{to}\' 
+          GROUP BY created_on ) as dates
+        GROUP BY dates.created
+        ORDER BY dates.created ASC"
+    else
+      sql = "
+        SELECT SUM(subtotal) total, dates.created 
+        FROM ( SELECT COUNT(id) subtotal, date(created_on) as created FROM #{Issue.table_name}     GROUP BY created_on ) as dates
+        GROUP BY dates.created
+        ORDER BY dates.created asc"      
+    end
+
+    ActiveRecord::Base.connection.select_all(sql)
+  end
 end 
