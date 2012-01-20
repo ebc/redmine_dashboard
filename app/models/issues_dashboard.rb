@@ -42,7 +42,8 @@ class IssuesDashboard
           SUM(CASE WHEN done_ratio = 100 THEN 1 ELSE 0 END) completed
         FROM #{Issue.table_name} 
         WHERE
-          start_date BETWEEN \'#{from}\' AND \'#{to}\'
+          start_date IS NOT NULL
+          AND start_date BETWEEN \'#{from}\' AND \'#{to}\'
         GROUP BY 
           start_date 
         ORDER BY 
@@ -53,7 +54,9 @@ class IssuesDashboard
           start_date, 
           SUM(CASE WHEN done_ratio < 100 THEN 1 ELSE 0 END) pending, 
           SUM(CASE WHEN done_ratio = 100 THEN 1 ELSE 0 END) completed
-        FROM #{Issue.table_name}         
+        FROM #{Issue.table_name}     
+        WHERE
+          start_date IS NOT NULL    
         GROUP BY 
           start_date 
         ORDER BY 
@@ -93,11 +96,37 @@ class IssuesDashboard
     else
       sql = "
         SELECT SUM(subtotal) total, dates.created 
-        FROM ( SELECT COUNT(id) subtotal, date(created_on) as created FROM #{Issue.table_name}     GROUP BY created_on ) as dates
+        FROM ( SELECT COUNT(id) subtotal, date(created_on) as created FROM #{Issue.table_name} GROUP BY created_on ) as dates
         GROUP BY dates.created
         ORDER BY dates.created asc"      
     end
 
     ActiveRecord::Base.connection.select_all(sql)
   end
+
+  def self.updated_issues_by_date(from, to)
+    if from && to  
+      sql = "
+        SELECT SUM(subtotal) total, dates.updated 
+        FROM ( 
+          SELECT COUNT(id) subtotal, date(updated_on) as updated 
+          FROM #{Issue.table_name} 
+          WHERE updated_on BETWEEN \'#{from}\' AND \'#{to}\' 
+          GROUP BY updated_on ) as dates
+        GROUP BY dates.updated
+        ORDER BY dates.updated ASC"
+    else
+      sql = "
+        SELECT SUM(subtotal) total, dates.updated 
+        FROM ( 
+          SELECT COUNT(id) subtotal, date(updated_on) as updated 
+          FROM #{Issue.table_name}           
+          GROUP BY updated_on ) as dates
+        GROUP BY dates.updated
+        ORDER BY dates.updated ASC"
+    end
+
+    ActiveRecord::Base.connection.select_all(sql)
+  end
+
 end 

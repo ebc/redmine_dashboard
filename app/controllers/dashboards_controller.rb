@@ -36,11 +36,7 @@ class DashboardsController < ApplicationController
     # Calculate total of issues grouped by start date    
     issues_by_date_count = IssuesDashboard.issues_by_date_count(@from, @to)  
     @open_issues = issues_by_date_count[:open_issues_count]
-    @closed_issues = issues_by_date_count[:closed_issues_count]  
-    
-    # Calculate total of issues created by date
-    @created_issues = IssuesDashboard.created_issues_by_date(@from, @to)
-              
+    @closed_issues = issues_by_date_count[:closed_issues_count]               
   rescue ActiveRecord::RecordNotFound
     render_404    
   end 
@@ -56,6 +52,9 @@ class DashboardsController < ApplicationController
 
     # Calculate total of issues created by date
     @created_issues = IssuesDashboard.created_issues_by_date(@from, @to)
+
+    # Calculate total of issues updated by date
+    @updated_issues = IssuesDashboard.updated_issues_by_date(@from, @to)
   rescue ActiveRecord::RecordNotFound
     render_404    
   end 

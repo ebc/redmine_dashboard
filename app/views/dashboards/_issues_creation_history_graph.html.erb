@@ -20,9 +20,15 @@
       <%- @created_issues.each do |item| -%>
         [ '<%= item['created'] %>', <%= item['total'] %> ], 
       <%- end -%>
+    ]; 
+    
+    var updatedData =[
+      <%- @updated_issues.each do |item| -%>
+        [ '<%= item['updated'] %>', <%= item['total'].to_i + 2 %> ], 
+      <%- end -%>
     ];   
     
-    var historyPlot = jQuery.jqplot('creationchart', [creationData], {
+    var historyPlot = jQuery.jqplot('creationchart', [creationData, updatedData], {
         title:'Histórico - Quantidade Total de Novas Tarefas',
         axes:{
           xaxis:{
@@ -48,8 +54,8 @@
           show: false
         },
         legend: { show:true, location: 'e' },        
-        seriesColors: [ "#507AAA"], 
-        series: [ { label: 'Novas Tarefas' } ],
+        seriesColors: [ "#507AAA", "#7aaa50"], 
+        series: [ { label: 'Novas Tarefas' }, { label: 'Atualizações' } ],
 
     });
   });
