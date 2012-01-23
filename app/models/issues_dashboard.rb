@@ -88,7 +88,7 @@ class IssuesDashboard
         SELECT SUM(subtotal) total, dates.created 
         FROM ( 
           SELECT COUNT(id) subtotal, date(created_on) as created 
-          FROM #{Isssue.table_name} 
+          FROM #{Issue.table_name} 
           WHERE created_on BETWEEN \'#{from}\' AND \'#{to}\' 
           GROUP BY created_on ) as dates
         GROUP BY dates.created
