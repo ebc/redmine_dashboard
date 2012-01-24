@@ -1,11 +1,22 @@
 module DashboardsHelper
   include ApplicationHelper
 
+  ## TODO - Refactoring
+  ## Please, fix this code with native Query/QueryColumns class and remove duplicated lines
+
   def all_issues_count(params = {:from => nil, :to => nil})
     if params[:from].present? && params[:to].present?
       Issue.find(:all, :conditions => ["start_date BETWEEN ? AND ?", params[:from], params[:to]]).count
     else
       Issue.find(:all).count    
+    end 
+  end
+
+  def all_issues_by_project_count(project_id, params = {:from => nil, :to => nil})
+    if params[:from].present? && params[:to].present?
+      Issue.find(:all, :conditions => ["project_id = ? AND start_date BETWEEN ? AND ?", project_id, params[:from], params[:to]]).count
+    else
+      Issue.find(:all, :conditions => ["project_id = ?", project_id]).count    
     end 
   end
 
@@ -19,6 +30,24 @@ module DashboardsHelper
                   :offset => params[:offset])
     else
       Issue.find(:all,
+                  :limit => params[:limit],
+                  :offset => params[:offset],
+                  :joins => [:tracker],
+                  :order => "#{Tracker.table_name}.name, #{Issue.table_name}.subject")
+    end
+  end 
+
+  def all_issues_by_project(project_id, params = {:from => nil, :to => nil, :limit => 25, :offset => 0})        
+    if params[:from].present? && params[:to].present?
+      Issue.find(:all,                  
+                  :joins => [:tracker],
+                  :conditions => ["project_id = ? AND start_date BETWEEN ? AND ?", project_id, params[:from], params[:to]],
+                  :order => "#{Tracker.table_name}.name, #{Issue.table_name}.subject",
+                  :limit => params[:limit],
+                  :offset => params[:offset])
+    else
+      Issue.find(:all,
+                  :conditions => ["project_id = ?", project_id],
                   :limit => params[:limit],
                   :offset => params[:offset],
                   :joins => [:tracker],
@@ -86,5 +115,38 @@ module DashboardsHelper
     # TODO - Define filter for all dates
     # @from ||= (TimeEntry.earilest_date_for_project(@project) || Date.today)
     # @to   ||= (TimeEntry.latest_date_for_project(@project) || Date.today)
+  end
+
+  def total_issues_by_group(group)
+    return 0 unless group
+
+    total = 0
+    group.users.each do |user|
+      total += Issue.count(:conditions => ["author_id=?", user.id])
+    end
+
+    total
+  end
+
+  def select_project_values
+    user_values = []
+    user_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
+
+    all_projects = Project.visible.all
+    project_values = []
+    if all_projects.any?
+      # members of visible projects
+      user_values += User.active.find(:all, :conditions => ["#{User.table_name}.id IN (SELECT DISTINCT user_id FROM members WHERE project_id IN (?))", all_projects.collect(&:id)]).sort.collect{|s| [s.name, s.id.to_s] }
+
+      # project filter
+      project_values = []
+      Project.project_tree(all_projects) do |p, level|
+        prefix = (level > 0 ? ('--' * level + ' ') : '')
+        project_values << ["#{prefix}#{p.name}", p.id.to_s]
+      end
+      project_values unless project_values.empty?
+    end
+
+    project_values
   end
 end

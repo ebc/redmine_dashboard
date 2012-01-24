@@ -1,6 +1,6 @@
-<fieldset id="date-range" class="collapsible">
+<fieldset id="date-range" class="collapsible collapsed">
 <legend onclick="toggleFieldset(this);"><%= l(:label_date_range) %></legend>
-<div>
+<div style="display: none; overflow-x: visible; overflow-y: visible; "> 
 <p>
 <%= radio_button_tag 'period_type', '1', !@free_period, :onclick => 'Form.Element.disable("from");Form.Element.disable("to");Form.Element.enable("period");' %>
 <%= select_tag 'period', options_for_period_select(params[:period]),

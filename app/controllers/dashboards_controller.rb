@@ -14,32 +14,56 @@ class DashboardsController < ApplicationController
   include TimelogHelper
   unloadable
 
-  # before_filter :find_project, :only => [:index]    
+  before_filter :find_project, :only => [:index]    
 
+  # TODO - Refactoring
   def index
     # Retrieve date range
-    retrieve_date_range
+    retrieve_date_range 
 
-    # Load issues data table 
-    @per_page = params[:per_page].present? ? params[:per_page].to_i : per_page_option    
-    @issue_count = all_issues_count({:from => @from, :to => @to})
-    @issue_pages = Paginator.new self, @issue_count, @per_page, params[:page]          
-    @issues = all_issues({ :from => @from, :to => @to, :offset => @issue_pages.current.offset, :limit => @per_page }) 
-    
-    
-    # Calculate done ratio   
-    issues_done_ratio = IssuesDashboard.issues_done_ratio(@from, @to)
-    @total = issues_done_ratio[:total]
-    @done_ratio = issues_done_ratio[:done_ratio]
-    @remaining_ratio = issues_done_ratio[:remaining_ratio]
+    if @project
+      # Load issues data table 
+      @per_page = params[:per_page].present? ? params[:per_page].to_i : per_page_option    
+      @issue_count = all_issues_by_project_count(@project.id, {:from => @from, :to => @to})
+      @issue_pages = Paginator.new self, @issue_count, @per_page, params[:page]          
+      @issues = all_issues_by_project(@project.id, { :from => @from, :to => @to, :offset => @issue_pages.current.offset, :limit => @per_page }) 
+      
+      
+      # Calculate done ratio   
+      issues_done_ratio = IssuesDashboard.issues_by_project_done_ratio(@project.id, @from, @to)
+      @total = issues_done_ratio[:total]
+      @done_ratio = issues_done_ratio[:done_ratio]
+      @remaining_ratio = issues_done_ratio[:remaining_ratio]
 
-    # Calculate total of issues grouped by start date    
-    issues_by_date_count = IssuesDashboard.issues_by_date_count(@from, @to)  
-    @open_issues = issues_by_date_count[:open_issues_count]
-    @closed_issues = issues_by_date_count[:closed_issues_count]               
+      # Calculate total of issues grouped by start date    
+      issues_by_date_count = IssuesDashboard.issues_by_project_and_date_count(@project.id, @from, @to)  
+      @open_issues = issues_by_date_count[:open_issues_count]
+      @closed_issues = issues_by_date_count[:closed_issues_count]                 
+    else
+      # Load issues by project data table 
+      @per_page = params[:per_page].present? ? params[:per_page].to_i : per_page_option    
+      @issue_count =  all_issues_count({:from => @from, :to => @to})
+      @issue_pages = Paginator.new self, @issue_count, @per_page, params[:page]          
+      @issues = all_issues({ :from => @from, :to => @to, :offset => @issue_pages.current.offset, :limit => @per_page })    
+    
+      # Calculate done ratio by project
+      issues_done_ratio = IssuesDashboard.issues_done_ratio(@from, @to)
+      @total = issues_done_ratio[:total]
+      @done_ratio = issues_done_ratio[:done_ratio]
+      @remaining_ratio = issues_done_ratio[:remaining_ratio]
+
+      # Calculate total of issues grouped by project and start date   
+      issues_by_date_count = IssuesDashboard.issues_by_date_count(@from, @to)  
+      @open_issues = issues_by_date_count[:open_issues_count]
+      @closed_issues = issues_by_date_count[:closed_issues_count]       
+    end
+
+    # Load project tree for select
+    @project_values = select_project_values              
+
   rescue ActiveRecord::RecordNotFound
     render_404    
-  end 
+  end  
 
   def analytics
     # Retrieve date range
@@ -60,13 +84,17 @@ class DashboardsController < ApplicationController
   end 
 
   def team
-
+    @groups = Group.find(:all, :order => 'lastname')    
   end
-  
+
 private
-  def find_project    
-    @project = Project.find(params[:id])
+  # Find project of id params[:project_id]
+  def find_project
+    return nil unless params[:project_id]
+    @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
-    render_404
-  end  
+    nil
+  end
+
+
 end

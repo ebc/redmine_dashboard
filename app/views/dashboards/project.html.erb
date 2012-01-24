@@ -1,18 +1,15 @@
 <h3>Dashboard de Projetos</h3>
 
-<!--
 <%= render_breadcrumb %>
--->
 
 <% form_tag({:controller => controller_name, :action => action_name, :project_id => @project, :issue_id => @issue}, :method => :get, :id => 'query_form') do %>  
- <fieldset id="project-range" class="collapsible collapsed">
+ <fieldset id="project-range" class="collapsible">
     <legend onclick="toggleFieldset(this);">Projetos</legend>
-    <div style="display: none; overflow-x: visible; overflow-y: visible; "> 
+    <div> 
       <p>
         <select id="projects" name="project_id" onchange="this.form.submit();" class="select-small" style="vertical-align: top;">
-        <option value="" <%= 'selected="selected"' unless @project %> >Todos</option>
         <% @project_values.each do |item| %>
-        <option value="<%= item[1] %>" <%= 'selected="selected"' if @project && @project.id == item[1].to_i  %> ><%= item[0] %></option>
+        <option value="<%= item[1] %>" <%= 'selected="selected"' if @project.id == item[1].to_i  %> ><%= item[0] %></option>
         <% end %>
         </select>
       </p>      
@@ -21,22 +18,11 @@
   <%= render :partial => 'date_range' %>  
 <% end %>
 
-
 <%= render :partial => "done_ratio_graph" %>
 </br>
 <%= render :partial => "done_ratio_history_graph" %>
 </br>
-<!--
-<div id="resume"  class="issues box"> 
-  <h3>Sumário de Tarefas</h3>     
-  <ul>        
-    <li>Aguardando</a>: <%= @waiting %></li>   
-    <li>Em execu&ccedil;&atilde;o</a>:  <%= @running %></li>   
-    <li>Finalizadas</a>:  <%= @completed %></li>   
-    <li>Total</a>:  <%= @total %></li>   
-  </ul>   
-</div>
--->
+
 <%= render :partial => "list" %>
 
 <% content_for :sidebar do %>
