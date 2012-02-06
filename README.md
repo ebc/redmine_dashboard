@@ -11,7 +11,7 @@ The Dashboard plugin requires Redmine 1.2.0 to be installed. Redmine 1.1.x is kn
     $ git clone git://github.com/ebc/redmine_dashboard.git
     $ copy plugins/redmine_dashboard $REDMINE_HOME$/vendor/plugins/redmine_dashboard
     
-[![Preview of Redmine Dashboard - New version][preview](http://blog.danielnegri.com)
+[![Preview of Redmine Dashboard - New version][preview][blog]
 
 
 ### Old version
@@ -25,5 +25,6 @@ The Dashboard plugin requires Redmine 1.2.0 to be installed and [Backlogs](http:
 
 This plugin is released under the GPL v2 license. See LICENSE for more information.
 
-[preview]: https://github.com/ebc/redmine_dashboard/blob/master/images/preview.png
+[blog]: http://blog.danielnegri.com/
+[preview]: https://github.com/ebc/redmine_dashboard/raw/master/images/preview.png
 
