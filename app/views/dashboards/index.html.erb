@@ -1,4 +1,8 @@
-<h3>Dashboard de Projetos</h3>
+<% content_for(:header_tags) do %>
+  <%= stylesheet_link_tag 'ebc', :plugin => 'redmine_dashboard' %>
+<% end %>
+
+<h3>Dashboard de Projetos <%= " - #{@project}" if @project %> <%= " - #{@from} até #{@to}" if @from && @to %></h3>
 
 <!--
 <%= render_breadcrumb %>

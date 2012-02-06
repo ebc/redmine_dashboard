@@ -1,4 +1,4 @@
-<h3>Dashboard de Utilização</h3>
+<h3>Dashboard de Utilização <%= " - #{@project}" if @project %> <%= " - #{@from} até #{@to}" if @from && @to %></h3>
 
 <% form_tag({:controller => controller_name, :action => action_name, :project_id => @project, :issue_id => @issue}, :method => :get, :id => 'query_form') do %>
 <%= render :partial => 'date_range' %>

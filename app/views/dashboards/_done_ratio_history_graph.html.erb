@@ -1,7 +1,7 @@
 <% content_for(:header_tags) do %>
-<script type="text/javascript" src="/plugin_assets/redmine_backlogs/javascripts/jquery/jquery.jqplot/plugins//jqplot.highlighter.min.js"></script>
-<script type="text/javascript" src="/plugin_assets/redmine_backlogs/javascripts/jquery/jquery.jqplot/plugins//jqplot.cursor.min.js"></script>
-<script type="text/javascript" src="/plugin_assets/redmine_backlogs/javascripts/jquery/jquery.jqplot/plugins//jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="/plugin_assets/redmine_backlogs/javascripts/jquery/jquery.jqplot/plugins/jqplot.highlighter.min.js"></script>
+<script type="text/javascript" src="/plugin_assets/redmine_backlogs/javascripts/jquery/jquery.jqplot/plugins/jqplot.cursor.min.js"></script>
+<script type="text/javascript" src="/plugin_assets/redmine_backlogs/javascripts/jquery/jquery.jqplot/plugins/jqplot.dateAxisRenderer.min.js"></script>
 
 <style>
   table.progress td.done {
@@ -10,7 +10,7 @@
 
   table.progress td.closed {
     background: #EAA228 none repeat scroll 0%;
-  }
+  }  
 </style>
 
 <script>
@@ -30,16 +30,21 @@
     
     var historyPlot = jQuery.jqplot('historychart', [openData, closedData ], {
         title:'Histórico - Quantidade Total de Tarefas',
+        axesDefaults: {
+          // labelRenderer: jQuery.jqplot.CategoryAxisRenderer
+        },
         axes:{
           xaxis:{
             renderer:jQuery.jqplot.DateAxisRenderer,
+            // renderer:jQuery.jqplot.CategoryAxisRenderer,
+            // labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
             tickOptions:{
               formatString:'%b&nbsp;%#d'
             },             
           },
           yaxis:{
             tickOptions:{
-              formatString:'%d',              
+              formatString:'%.0f',              
             },
             min: 0,            
             labelRenderer: jQuery.jqplot.CanvasAxisLabelRenderer,
@@ -48,7 +53,11 @@
         },
         highlighter: {
           show: true,
-          sizeAdjust: 7.5
+          sizeAdjust: 13.5,
+          // tooltipAxes: 'yaxis',
+          // yvales: 1,
+          // formatString: 'Total em %#d: %s tarefas(s)',
+          // tooltipAxes: 'both',
         },
         cursor: {
           show: false

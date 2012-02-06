@@ -69,10 +69,10 @@ module DashboardsHelper
     breadcrumb links
   end
 
-
   def retrieve_date_range
     @free_period = false
     @from, @to = nil, nil
+    @from, @to = session[:dashboard_from], session[:dashboard_to] if params[:period_type] != '1' && params[:period] != 'all'
 
     if params[:period_type] == '1' || (params[:period_type].nil? && !params[:period].nil?)
       case params[:period].to_s
@@ -115,6 +115,8 @@ module DashboardsHelper
     # TODO - Define filter for all dates
     # @from ||= (TimeEntry.earilest_date_for_project(@project) || Date.today)
     # @to   ||= (TimeEntry.latest_date_for_project(@project) || Date.today)
+
+    session[:dashboard_from], session[:dashboard_to] = @from, @to
   end
 
   def total_issues_by_group(group)
