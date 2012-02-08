@@ -4,6 +4,13 @@ body {
   font: 14px/14px Arial,sans-serif;
 }
 
+h2 {
+  font-family: 'DINBold',Arial,sans-serif;
+  font-size: 27px;
+  font-weight: normal;
+  line-height: 30px;
+}
+
 .clearer {
   clear: both;
   line-height: 0;
@@ -242,8 +249,10 @@ input[type="submit"] {
 }
 
 #detail-wrapper {
-  background-color: #F0F0F0;
+  /*
+  background-color: #F0F0F0;  
   float: right;
+  */
 }
 
 #detail #navigation {
@@ -321,6 +330,23 @@ input[type="submit"] {
   padding-top: 5px;
   font-size: 11px;
 }
+
+
+/** ========== Detail Content ========== **/
+
+#detail #content {
+  padding: 10px 0 20px 0px;
+  width: 636px;
+  min-height: 803px;
+  float: left;
+  background-color: white;
+}
+
+#detail #content #score-analysis-section {
+  width: 630px;
+}
+
+
 
 /** ========== Footer ========== **/
 

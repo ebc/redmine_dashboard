@@ -8,6 +8,10 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/boilerplate.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/fonts.css">
     <link rel="stylesheet" type="text/css" href="stylesheets/dashboards.css">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="javascripts/flotr2.ie.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="javascripts/flotr2.min.js"></script>
   </head>
   <body>
     <div id="header-wrapper" class="public">
@@ -50,46 +54,61 @@
                 <br class="clearer">
               </div>
               <div id="detail">
-                <div id="detail-wrapper">
-                  <form id="form_filtro">
-                    <div id="navigation">
-                        <ul>                          
-                            <li><span class="title"><div class="triangle"></div>Filtro<div class="inverse_triangle"></div></span></li>
-                            <li>
-                              <span>Projetos</span>                              
-                            </li>
-                            <li>
-                              <div class="inputs">
-                                <select class="inputs">
-                                  <option>Agência Brasil</option>
-                                </select>                                
-                              </div>
-                            </li>
-                            <li>
-                              <span>Intervalo</span>
-                            </li>                            
-                            <li>
-                              <table class="filter_table">
-                                <tr>
-                                  <td class="label">Início</td>
-                                  <td><input type="text" size="9"></td>
-                                </tr>
-                                <tr>
-                                  <td class="label">Fim</td>
-                                  <td><input type="text" size="9"></td>
-                                </tr>
-                              </table>                        
-                            </li>    
-                            <li>
-                              <div class="inputs">
-                                <input type="submit" value="Aplicar">
-                              </div>
-                            </li>                         
-                        </ul>
+                <div id="detail-wrapper">                  
+                  <div id="navigation">
+                    <form id="form_filtro">
+                      <ul>                          
+                          <li><span class="title"><div class="triangle"></div>Filtro<div class="inverse_triangle"></div></span></li>
+                          <li>
+                            <span>Projetos</span>                              
+                          </li>
+                          <li>
+                            <div class="inputs">
+                              <select>
+                                <option>Agência Brasil</option>
+                              </select>                                
+                            </div>
+                          </li>
+                          <li>
+                            <span>Intervalo</span>
+                          </li>                            
+                          <li>
+                            <table class="filter_table">
+                              <tr>
+                                <td class="label">Início</td>
+                                <td><input type="text" size="9"></td>
+                              </tr>
+                              <tr>
+                                <td class="label">Fim</td>
+                                <td><input type="text" size="9"></td>
+                              </tr>
+                            </table>                        
+                          </li>    
+                          <li>
+                            <div class="inputs">
+                              <input type="submit" value="Aplicar">
+                            </div>
+                          </li>                         
+                      </ul>
+                    </form><!-- end form filtro -->
+                  </div><!-- end navitation -->
+                  
+                  <div id="content">
+                    <div class="tab score-analysis" style="display: block;">                        
+                        <div id="score-analysis-section">
+                          <div class="chart-section">
+                            <h2>Status</h2>
+                            <div id="status_graph" style="width: 300px; height: 300px; margin: 8px auto; left: 0px;"></div> 
+                          </div>                          
+                          <div class="chart-section">
+                            <h2>Tipo de Tarefas</h2>
+                            <div id="tasks_graph" style="width: 300px; height: 300px; margin: 8px auto; right: 0px;"></div> 
+                          </div>
+                        </div><!-- score-analysis-section -->
                     </div>
-                  </form>
-                </div>
-              </div>
+                  </div><!-- end content -->
+                </div><!-- end detail wrapper -->
+              </div><!-- end detail -->
             </div> <!-- end profile -->
         </div> <!-- end container -->
       </div> <!-- end main -->
@@ -103,5 +122,93 @@
         </div>
       </div>
     </div>
+    <!-- Status Graph -->
+    <script type="text/javascript">
+      (function () {
+        var
+          container = document.getElementById('status_graph'),
+          d1 = [[0, 7]],
+          d2 = [[0, 3]],         
+          graph;
+        
+        graph = Flotr.draw(container, [
+          { data : d1, label : 'Pendentes' },
+          { data : d2, label : 'Fechados' },          
+        ], {
+          HtmlText : false,
+          grid : {
+            verticalLines : false,
+            horizontalLines : false
+          },
+          xaxis : { showLabels : false },
+          yaxis : { showLabels : false },
+          pie : {
+            show : true, 
+            explode : 0
+          },
+          mouse : { track : true },
+          legend : {
+            position : 'se',
+            backgroundColor : '#D2E8FF'
+          }
+        });
+      })();
+    </script>
+
+    <!-- Tasks Graph -->
+    <script type="text/javascript">
+
+      (function basic_bars(container, horizontal) {
+        var
+          horizontal = true,                       // Show horizontal bars
+          d1 = [],                                  // First data series
+          d2 = [],                                  // Second data series
+          point,                                    // Data point variable declaration
+          i;
+
+        for (i = 0; i < 4; i++) {
+
+          if (horizontal) { 
+            point = [Math.ceil(Math.random()*10), i];
+          } else {
+            point = [i, Math.ceil(Math.random()*10)];
+          }
+
+          d1.push(point);
+              
+          if (horizontal) { 
+            point = [Math.ceil(Math.random()*10), i+0.5];
+          } else {
+            point = [i+0.5, Math.ceil(Math.random()*10)];
+          }
+
+          d2.push(point);
+        };
+                    
+        // Draw the graph
+        Flotr.draw(
+          container,
+          [d1, d2],
+          {
+            bars : {
+              show : true,
+              horizontal : horizontal,
+              shadowSize : 0,
+              barWidth : 0.5
+            },
+            mouse : {
+              track : true,
+              relative : true
+            },
+            yaxis : {
+              min : 0,
+              autoscaleMargin : 1
+            }
+          }
+        );
+      })(document.getElementById("tasks_graph"));
+    </script>
+
+
   </body>  
 </html>
