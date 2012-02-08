@@ -1,7 +1,7 @@
 # Dashboard - Administrative Dashboard
 # EBC - Empresa Brasil de Comunicacao
-# Autor: Daniel Negri
-# Data: 07/12/2011
+# Author: Daniel Negri
+# Date: 07/12/2011
 
 class DashboardsController < ApplicationController
   helper :custom_fields
