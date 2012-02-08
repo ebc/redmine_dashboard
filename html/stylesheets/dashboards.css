@@ -274,8 +274,9 @@ input[type="submit"] {
 #detail #navigation .title {
   margin-left: -9px;
   margin-right: -9px;
-  color: white;
-  background-color: #E44600;
+  color: white;  
+  background-color: #ff6600;
+  font-weight: bold;
 }
 
 #detail #navigation .title .triangle {
