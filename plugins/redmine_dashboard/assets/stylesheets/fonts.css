@@ -1,0 +1,43 @@
+@font-face {
+    font-family: 'DINBold';
+    src: url('../fonts/din-bold-webfont.eot');
+    src: url('../fonts/din-bold-webfont.eot?iefix') format('eot'),
+         url('../fonts/din-bold-webfont.woff') format('woff'),
+         url('../fonts/din-bold-webfont.ttf') format('truetype'),
+         url('../fonts/din-bold-webfont.svg#webfontP8nfTlwg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DINMedium';
+    src: url('../fonts/din-medium-webfont.eot');
+    src: url('../fonts/din-medium-webfont.eot?iefix') format('eot'),
+         url('../fonts/din-medium-webfont.woff') format('woff'),
+         url('../fonts/din-medium-webfont.ttf') format('truetype'),
+         url('../fonts/din-medium-webfont.svg#webfonteq6wpgx5') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DINLight';
+    src: url('../fonts/din-light-webfont.eot');
+    src: url('../fonts/din-light-webfont.eot?#iefix') format('eot'),
+         url('../fonts/din-light-webfont.woff') format('woff'),
+         url('../fonts/din-light-webfont.ttf') format('truetype'),
+         url('../fonts/din-light-webfont.svg#webfontf23i6Xb7') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DINRegular';
+    src: url('../fonts/din-regular-webfont.eot');
+    src: url('../fonts/din-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/din-regular-webfont.woff') format('woff'),
+         url('../fonts/din-regular-webfont.ttf') format('truetype'),
+         url('../fonts/din-regular-webfont.svg#DINRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

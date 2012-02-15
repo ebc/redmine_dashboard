@@ -220,7 +220,7 @@ input[type="submit"] {
   background-color: #ffffff;
   margin: 0 auto;
   width: 978px;
-  min-height: 1550px;
+  min-height: 799px;
   position: relative;
 }
 
@@ -395,12 +395,19 @@ input[type="submit"] {
   width: 200px;     
 }
 
+
+/**
+
 #detail #content #score-analysis-section .header-caption {
-  margin: 14px 10px 14px 0;  
+  margin-top: 6px;
+  font-family: Arial,sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+  line-height: 18px;   
 }
 
 
-/**
+
 #detail #content #score-analysis-section table tr.alt {
   background-color: #F0F0F0;
 }

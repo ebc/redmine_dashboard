@@ -14,7 +14,7 @@ class DashboardsController < ApplicationController
   include TimelogHelper
   unloadable
 
-  before_filter :find_project, :only => [:index]    
+  before_filter :find_project, :only => [:index]  
 
   # TODO - Refactoring
   def index
@@ -59,7 +59,11 @@ class DashboardsController < ApplicationController
     end
 
     # Load project tree for select
-    @project_values = select_project_values              
+    @project_values = select_project_values    
+    
+    respond_to do |format|
+      format.html { render :layout => "dashboards"}
+    end          
 
   rescue ActiveRecord::RecordNotFound
     render_404    
