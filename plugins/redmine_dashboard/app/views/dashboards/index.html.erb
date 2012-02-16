@@ -1,48 +1,67 @@
-<% content_for(:header_tags) do %>
-  <%= stylesheet_link_tag 'ebc', :plugin => 'redmine_dashboard' %>
-<% end %>
+<div id="profile">
+  <div id="info" class="clearfix">
+    <h1>Dashboard de Projetos <%= "- #{@project.name}" if @project %></h1>
+    <%= render :partial => 'breadcrumb' %>                
+    <br class="clearer">
+  </div>
+  <div id="detail">
+    <div id="detail-wrapper">                  
+      <div id="navigation">
+        <%= render :partial => 'filter' %>
+      </div><!-- end navitation -->
+      
+      <div id="content">
+        <div class="tab score-analysis" style="display: block;">                        
+          <div id="score-analysis-section">
+            <div class="chart-section">
+              <h2>Status</h2>
+              <%= render :partial => 'tasks_status_chart' %>
+            </div>    
+            <!--                      
+            <div class="chart-section" style="float: right;">
+              <h2>Tipo de Tarefas</h2>
+               render :partial => 'tasks_trackers_chart' 
+            </div>
+            -->
+          </div><!-- score-analysis-section -->
+        </div>
+        <hr>              
+        <div class="tab score-analysis" style="display: block;">                                                
+          <div id="score-analysis-section">
+            <div class="score-section">
+              <h2>Pendentes</h2>
+              <div class="score" style=""><%= @remaining_ratio.nan? ? "0" : number_to_percentage(@remaining_ratio, :precision => 0) %></div> 
+            </div>    
+            <% if @total_hours.present? %>                      
+            <div class="score-section" >
+              <h2>Tempo gasto</h2>
+              <div class="score" style=""><%= "#{number_with_precision(@total_hours, :precision => 0)}h" %></div> 
+            </div>
+            <% end %>
 
-<h3>Dashboard de Projetos <%= " - #{@project}" if @project %> <%= " - #{@from} até #{@to}" if @from && @to %></h3>
-
-<!--
-<%= render_breadcrumb %>
--->
-
-<% form_tag({:controller => controller_name, :action => action_name, :project_id => @project, :issue_id => @issue}, :method => :get, :id => 'query_form') do %>  
- <fieldset id="project-range" class="collapsible collapsed">
-    <legend onclick="toggleFieldset(this);">Projetos</legend>
-    <div style="display: none; overflow-x: visible; overflow-y: visible; "> 
-      <p>
-        <select id="projects" name="project_id" onchange="this.form.submit();" class="select-small" style="vertical-align: top;">
-        <option value="" <%= 'selected="selected"' unless @project %> >Todos</option>
-        <% @project_values.each do |item| %>
-        <option value="<%= item[1] %>" <%= 'selected="selected"' if @project && @project.id == item[1].to_i  %> ><%= item[0] %></option>
-        <% end %>
-        </select>
-      </p>      
-    </div>
-  </fieldset>
-  <%= render :partial => 'date_range' %>  
-<% end %>
-
-
-<%= render :partial => "done_ratio_graph" %>
-</br>
-<%= render :partial => "done_ratio_history_graph" %>
-</br>
-<!--
-<div id="resume"  class="issues box"> 
-  <h3>Sumário de Tarefas</h3>     
-  <ul>        
-    <li>Aguardando</a>: <%= @waiting %></li>   
-    <li>Em execu&ccedil;&atilde;o</a>:  <%= @running %></li>   
-    <li>Finalizadas</a>:  <%= @completed %></li>   
-    <li>Total</a>:  <%= @total %></li>   
-  </ul>   
-</div>
--->
-<%= render :partial => "list" %>
-
-<% content_for :sidebar do %>
-  <%= render :partial => 'sidebar' %>
-<% end %>
+            <!--
+            <div class="score-section">
+              <h2>Valor gasto (R$)</h2>
+              <div class="score" style="border-right: 0;">16mil</div> 
+            </div>                          
+            -->
+          </div><!-- score-analysis-section -->
+        </div>
+        <hr> 
+        <div class="tab score-analysis" style="display: block;">
+          <% if @project %>
+          <%= render :partial => 'project_details' %>
+          <hr>             
+          <% end %> 
+          <div class="tab score-analysis" style="display: block;">                                                
+            <div id="score-analysis-section">
+              <div class="score-section">   
+              <%= render :partial => "tasks_table" %>
+              </div>                                                   
+            </div><!-- score-analysis-section -->
+          </div>
+        </div><!-- tab score-analysis -->
+      </div><!-- end content -->
+    </div><!-- end detail wrapper -->
+  </div><!-- end detail -->
+</div> <!-- end profile -->

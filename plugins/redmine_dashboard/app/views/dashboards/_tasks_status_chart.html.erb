@@ -5,13 +5,13 @@
   (function () {
     var
       container = document.getElementById('status_graph'),
-      d1 = [[0, <%= @remaining_ratio %>]],
-      d2 = [[0, <%= @done_ratio %>]],         
+      d1 = [[0, <%= @remaining_ratio.nan? ? "0" : @remaining_ratio.to_i %>]],
+      d2 = [[0, <%= @done_ratio.nan? ? "0" : @done_ratio.to_i %>]],         
       graph;
     
     graph = Flotr.draw(container, [
       { data : d1, label : 'Pendentes' },
-      { data : d2, label : 'Fechados' },          
+      { data : d2, label : 'Fechados' }, 
     ], {
       HtmlText : false,
       grid : {

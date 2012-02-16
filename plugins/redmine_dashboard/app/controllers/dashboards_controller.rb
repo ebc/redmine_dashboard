@@ -106,6 +106,9 @@ private
     @total_issues_by_tracker = Issue.visible.count(:group => :tracker,
                                             :include => [:project, :status, :tracker],
                                             :conditions => cond)
+    if User.current.allowed_to?(:view_time_entries, @project)
+      @total_hours = TimeEntry.visible.sum(:hours, :include => :project, :conditions => cond).to_f
+    end
   rescue ActiveRecord::RecordNotFound
     nil
   end

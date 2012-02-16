@@ -26,14 +26,14 @@
           <tr>
             <td class="label">Início</td>
             <td>
-              <input type="text" size="9">
+              <%= text_field_tag :from, params[:from], :class =>  "search_field thin datepicker", :autocomplete => "off", :size => 9 %>
               <img alt="Calendar" class="calendar-trigger" id="from_trigger" src="/images/calendar.png">
             </td>
           </tr>
           <tr>
             <td class="label">Fim</td>
             <td>
-              <input type="text" size="9">
+              <%= text_field_tag :to, params[:to], :class =>  "search_field thin datepicker", :autocomplete => "off", :size => 9 %>
               <img alt="Calendar" class="calendar-trigger" id="to_trigger" src="/images/calendar.png">
             </td>
           </tr>
@@ -60,4 +60,24 @@ $(document).ready(function (){
     // $(input).css("width", "150px");
     // $(input).attr("width", "150px");
 }); 
+</script>
+
+<script>
+  $(function() {
+    $( "#from" ).datepicker({
+      dateFormat: 'yy/mm/dd',
+      defaultDate: "+1w",
+      changeMonth: true,
+      changeYear: false
+    })
+  }); 
+
+  $(function() {
+    $( "#to" ).datepicker({
+      dateFormat: 'yy/mm/dd',
+      defaultDate: "+1w",
+      changeMonth: true,
+      changeYear: false
+    })
+  }); 
 </script>

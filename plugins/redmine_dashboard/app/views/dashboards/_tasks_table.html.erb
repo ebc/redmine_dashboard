@@ -4,9 +4,9 @@
       <!--
       <th title="&quot;#&quot;">#</th>
       -->
-      <th title="&quot;Stituação&quot;">Stituação</th>
+      <th title="&quot;Descrição&quot;">Descrição</th>      
       <th title="&quot;Tarefa&quot;" style="text-align: left;">Tipo</th>      
-      <th title="&quot;Descrição&quot;">Descrição</th>
+      <th title="&quot;Stituação&quot;">Stituação</th>
       <th title="&quot;Terminado&quot;">Terminado</th>
     </tr>
   </tbody>
@@ -14,10 +14,10 @@
   <tfoot>
     <tr style="background-color: #EEE; ">
       <td colspan="3">
-        <span style="font-weight: bold; ">432 tarefas</span>
+        <span style="font-weight: bold; "><%=h @issue_count %> tarefas</span>
       </td>
       <td style="text-align: right; font-weight: bold;   ">
-        52,31%
+        <%= "#{h(number_with_precision(@done_ratio.to_f, :precision => 2))}%" %>
       </td>
     </tr>
   </tfoot>

@@ -5,19 +5,28 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="description" content="Redmine Dashboards" />
     <meta name="keywords" content="team,project,statistics,status,tracker,scrum,agile,plugin" />    
+    <link rel="shortcut icon" href="/favicon.ico">
     <!--[if lt IE 9]>   
     <script type="text/javascript" src="/plugin_assets/redmine_dashboard/javascripts/flotr2.ie.min.js" ></script>
     <![endif]-->      
     <script type="text/javascript" src="/plugin_assets/redmine_dashboard/javascripts/flotr2.min.js" ></script>
     <script type="text/javascript" src="/plugin_assets/redmine_dashboard/javascripts/jquery-1.7.1.min.js" ></script>
     <script type="text/javascript" src="/plugin_assets/redmine_dashboard/javascripts/jquery.bgiframe.js" ></script>
+
     <script type="text/javascript" src="/plugin_assets/redmine_dashboard/javascripts/jquery.mcdropdown.min.js" ></script>
+    
+    <script type="text/javascript" src="/plugin_assets/redmine_dashboard/javascripts/jquery.ui.core.min.js" ></script>
+    <script type="text/javascript" src="/plugin_assets/redmine_dashboard/javascripts/jquery-ui-i18n.js" ></script>
+    <script type="text/javascript" src="/plugin_assets/redmine_dashboard/javascripts/jquery.ui.datepicker.min.js" ></script>
+    <script type="text/javascript" src="/plugin_assets/redmine_dashboard/javascripts/jquery.ui.datepicker-pt-BR.js" ></script>    
     
 
     <%= stylesheet_link_tag 'boilerplate.css', :plugin => 'redmine_dashboard'%>
     <%= stylesheet_link_tag 'fonts.css', :plugin => 'redmine_dashboard'%>
-    <%= stylesheet_link_tag 'jquery.mcdropdown.min.css', :plugin => 'redmine_dashboard'%>
+    <%= stylesheet_link_tag 'jquery.mcdropdown.min.css', :plugin => 'redmine_dashboard'%>    
     <%= stylesheet_link_tag 'dashboards.css', :plugin => 'redmine_dashboard'%>
+    <%= stylesheet_link_tag 'jquery-ui-1.8.12.custom.css', :plugin => 'redmine_dashboard'%>    
+
   </head>
   <body>
     <div id="header-wrapper" class="public">
@@ -46,72 +55,7 @@
     <div id="main-wrapper" class="public">
       <div id="main">
         <div id="container" class="clearfix">
-            <div id="profile">
-              <div id="info" class="clearfix">
-                
-
-                <h1>Dashboard de Projetos <%= "- #{@project.name}" if @project %></h1>
-                <%= render :partial => 'breadcrumb' %>                
-                <br class="clearer">
-              </div>
-              <div id="detail">
-                <div id="detail-wrapper">                  
-                  <div id="navigation">
-                    <%= render :partial => 'filter' %>
-                  </div><!-- end navitation -->
-                  
-                  <div id="content">
-                    <div class="tab score-analysis" style="display: block;">                        
-                      <div id="score-analysis-section">
-                        <div class="chart-section">
-                          <h2>Status</h2>
-                          <%= render :partial => 'tasks_status_chart' %>
-                        </div>    
-                        <!--                      
-                        <div class="chart-section" style="float: right;">
-                          <h2>Tipo de Tarefas</h2>
-                           render :partial => 'tasks_trackers_chart' 
-                        </div>
-                        -->
-                      </div><!-- score-analysis-section -->
-                    </div>
-                    <hr>              
-                    <div class="tab score-analysis" style="display: block;">                                                
-                      <div id="score-analysis-section">
-                        <div class="score-section">
-                          <h2>Pendentes</h2>
-                          <div class="score" style=""><%= number_to_percentage(@remaining_ratio, :precision => 0) %></div> 
-                        </div>                          
-                        <div class="score-section" >
-                          <h2>Tempo gasto</h2>
-                          <div class="score" style="">0h</div> 
-                        </div>
-                        <!--
-                        <div class="score-section">
-                          <h2>Valor gasto (R$)</h2>
-                          <div class="score" style="border-right: 0;">16mil</div> 
-                        </div>                          
-                        -->
-                      </div><!-- score-analysis-section -->
-                    </div>
-                    <hr> 
-                    <div class="tab score-analysis" style="display: block;">
-                      <% if @project %>
-                      <%= render :partial => 'project_details' %>
-                      <hr>             
-                      <% end %> 
-                      <div class="tab score-analysis" style="display: block;">                                                
-                        <div id="score-analysis-section">
-                          <div class="score-section">   
-                          <%= render :partial => "tasks_table" %>
-                          </div>                                                   
-                        </div><!-- score-analysis-section -->
-                      </div>
-                    </div><!-- tab score-analysis -->
-                  </div><!-- end content -->
-                </div><!-- end detail wrapper -->
-              </div><!-- end detail -->
-            </div> <!-- end profile -->
+            <%= yield %>
         </div> <!-- end container -->
       </div> <!-- end main -->
     </div>
@@ -119,7 +63,7 @@
     <div id="footer">
       <div id="footer-wrapper">
         <div id="footer-content">
-            <div class="content-block">Powered by Redmine</div>            
+            <div class="content-block">Powered by <a href="/">Redmine</a></div>            
         </div>
       </div>
     </div>
