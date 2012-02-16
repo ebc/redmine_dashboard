@@ -6,7 +6,7 @@ module DashboardsHelper
 
   def all_issues_count(params = {:from => nil, :to => nil})
     if params[:from].present? && params[:to].present?
-      Issue.find(:all, :conditions => ["start_date BETWEEN ? AND ?", params[:from], params[:to]]).count
+      Issue.find(:all, :conditions => ["updated_on BETWEEN ? AND ?", params[:from], params[:to]]).count
     else
       Issue.find(:all).count    
     end 
@@ -14,7 +14,7 @@ module DashboardsHelper
 
   def all_issues_by_project_count(project_id, params = {:from => nil, :to => nil})
     if params[:from].present? && params[:to].present?
-      Issue.find(:all, :conditions => ["project_id = ? AND start_date BETWEEN ? AND ?", project_id, params[:from], params[:to]]).count
+      Issue.find(:all, :conditions => ["project_id = ? AND updated_on BETWEEN ? AND ?", project_id, params[:from], params[:to]]).count
     else
       Issue.find(:all, :conditions => ["project_id = ?", project_id]).count    
     end 
@@ -24,8 +24,8 @@ module DashboardsHelper
     if params[:from].present? && params[:to].present?
       Issue.find(:all,                  
                   :joins => [:tracker],
-                  :conditions => ["start_date BETWEEN ? AND ?", params[:from], params[:to]],
-                  :order => "#{Tracker.table_name}.name, #{Issue.table_name}.subject",
+                  :conditions => ["updated_on BETWEEN ? AND ?", params[:from], params[:to]],
+                  :order => "#{Issue.table_name}.updated_on desc",
                   :limit => params[:limit],
                   :offset => params[:offset])
     else
@@ -33,7 +33,7 @@ module DashboardsHelper
                   :limit => params[:limit],
                   :offset => params[:offset],
                   :joins => [:tracker],
-                  :order => "#{Tracker.table_name}.name, #{Issue.table_name}.subject")
+                  :order => "#{Issue.table_name}.updated_on desc")
     end
   end 
 
@@ -41,8 +41,8 @@ module DashboardsHelper
     if params[:from].present? && params[:to].present?
       Issue.find(:all,                  
                   :joins => [:tracker],
-                  :conditions => ["project_id = ? AND start_date BETWEEN ? AND ?", project_id, params[:from], params[:to]],
-                  :order => "#{Tracker.table_name}.name, #{Issue.table_name}.subject",
+                  :conditions => ["project_id = ? AND updated_on BETWEEN ? AND ?", project_id, params[:from], params[:to]],
+                  :order => "#{Issue.table_name}.updated_on desc",
                   :limit => params[:limit],
                   :offset => params[:offset])
     else
@@ -51,7 +51,7 @@ module DashboardsHelper
                   :limit => params[:limit],
                   :offset => params[:offset],
                   :joins => [:tracker],
-                  :order => "#{Tracker.table_name}.name, #{Issue.table_name}.subject")
+                  :order => "#{Issue.table_name}.updated_on desc")
     end
   end 
 
@@ -87,8 +87,7 @@ module DashboardsHelper
   def retrieve_date_range
     @free_period = false
     @from, @to = nil, nil
-    @from, @to = session[:dashboard_from], session[:dashboard_to] if params[:period_type] != '1' && params[:period] != 'all'
-
+    
     if params[:period_type] == '1' || (params[:period_type].nil? && !params[:period].nil?)
       case params[:period].to_s
       when 'today'
@@ -126,12 +125,11 @@ module DashboardsHelper
     end
     
     @from, @to = @to, @from if @from && @to && @from > @to
+    @from, @to = nil, nil unless @from && @to
 
     # TODO - Define filter for all dates
-    # @from ||= (TimeEntry.earilest_date_for_project(@project) || Date.today)
-    # @to   ||= (TimeEntry.latest_date_for_project(@project) || Date.today)
-
-    session[:dashboard_from], session[:dashboard_to] = @from, @to
+    # @from ||= (TimeEntry.earilest_date_for_project(@project) || Date.civil(Date.today.year, 1, 1) )
+    # @to   ||= (TimeEntry.latest_date_for_project(@project) || Date.today)      
   end
 
   def total_issues_by_group(group)

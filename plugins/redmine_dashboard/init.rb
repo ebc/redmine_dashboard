@@ -8,6 +8,6 @@ Redmine::Plugin.register :redmine_dashboard do
   url 'http://redmine.ebc'
   author_url 'http://blog.danielnegri.com'
     
-  permission :dashboards, {:dashboards => [:index, :analytics, :team] }, :public => true
+  permission :dashboards, {:dashboards => [:index] }, :public => true
   menu :application_menu, :dashboards, { :controller => "dashboards", :action => 'index'}, :caption => 'Dashboards'
 end

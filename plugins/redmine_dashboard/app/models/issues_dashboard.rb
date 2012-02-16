@@ -5,7 +5,7 @@ class IssuesDashboard
       SELECT 
         COUNT(id) completed 
       FROM #{Issue.table_name} 
-      WHERE done_ratio = 100 start_date BETWEEN \'#{from}\' AND \'#{to}\'"
+      WHERE done_ratio = 100 updated_on BETWEEN \'#{from}\' AND \'#{to}\'"
     result = ActiveRecord::Base.connection.select_one(sql)
     result['completed'].to_f
   end
@@ -17,7 +17,7 @@ class IssuesDashboard
         SELECT 
           SUM(done_ratio) done, COUNT(id) total 
         FROM #{Issue.table_name} 
-        WHERE start_date BETWEEN \'#{from}\' AND \'#{to}\'"
+        WHERE updated_on BETWEEN \'#{from}\' AND \'#{to}\'"
     else
       sql = "
         SELECT 
@@ -41,7 +41,7 @@ class IssuesDashboard
         FROM #{Issue.table_name} 
         WHERE 
           project_id = #{project_id} 
-          AND start_date BETWEEN \'#{from}\' AND \'#{to}\'"
+          AND updated_on BETWEEN \'#{from}\' AND \'#{to}\'"
     else
       sql = "
         SELECT 
@@ -69,7 +69,7 @@ class IssuesDashboard
         FROM #{Issue.table_name} 
         WHERE
           start_date IS NOT NULL
-          AND start_date BETWEEN \'#{from}\' AND \'#{to}\'
+          AND updated_on BETWEEN \'#{from}\' AND \'#{to}\'
         GROUP BY 
           start_date 
         ORDER BY 
@@ -119,7 +119,7 @@ class IssuesDashboard
         WHERE
           project_id = #{project_id}
           AND start_date IS NOT NULL
-          AND start_date BETWEEN \'#{from}\' AND \'#{to}\'
+          AND updated_on BETWEEN \'#{from}\' AND \'#{to}\'
         GROUP BY 
           start_date 
         ORDER BY 
@@ -166,7 +166,7 @@ class IssuesDashboard
         FROM ( 
           SELECT COUNT(id) subtotal, date(created_on) as created 
           FROM #{Issue.table_name} 
-          WHERE created_on BETWEEN \'#{from}\' AND \'#{to}\' 
+          WHERE updated_on BETWEEN \'#{from}\' AND \'#{to}\' 
           GROUP BY created_on ) as dates
         GROUP BY dates.created
         ORDER BY dates.created ASC"

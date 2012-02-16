@@ -5,8 +5,8 @@
       <th title="&quot;#&quot;">#</th>
       -->
       <th title="&quot;Descrição&quot;">Descrição</th>      
-      <th title="&quot;Tarefa&quot;" style="text-align: left;">Tipo</th>      
-      <th title="&quot;Stituação&quot;">Stituação</th>
+      <th title="&quot;Alterado&quot;" style="text-align: left;">Alterado</th>      
+      <th title="&quot;Situação&quot;">Situação</th>
       <th title="&quot;Terminado&quot;">Terminado</th>
     </tr>
   </tbody>
@@ -36,7 +36,7 @@
          
       </td>
       <td class="tracker" >
-        <%= issue.tracker %>
+        <%= format_date(issue.updated_on) %>
       </td>
       <td class="status" style="width: 20%; text-align: left; ">
         <%= h(issue.status) %>
