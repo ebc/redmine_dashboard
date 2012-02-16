@@ -69,6 +69,21 @@ module DashboardsHelper
     breadcrumb links
   end
 
+  def breadcrumb_links
+    links = []
+    links << link_to(l(:label_project_all), {:project_id => nil, :issue_id => nil})
+    links << link_to(h(@project), {:project_id => @project, :issue_id => nil}) if @project
+    if @issue
+      if @issue.visible?
+        links << link_to_issue(@issue, :subject => false)
+      else
+        links << "##{@issue.id}"
+      end
+    end
+    
+    links
+  end
+
   def retrieve_date_range
     @free_period = false
     @from, @to = nil, nil

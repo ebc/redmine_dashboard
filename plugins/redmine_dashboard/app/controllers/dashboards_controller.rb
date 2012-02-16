@@ -96,6 +96,16 @@ private
   def find_project
     return nil unless params[:project_id]
     @project = Project.find(params[:project_id])
+    @users_by_role = @project.users_by_role
+    @subprojects = @project.children.visible.all
+    @trackers = @project.rolled_up_trackers
+    cond = @project.project_condition(Setting.display_subprojects_issues?)
+    @open_issues_by_tracker = Issue.visible.count(:group => :tracker,
+                                            :include => [:project, :status, :tracker],
+                                            :conditions => ["(#{cond}) AND #{IssueStatus.table_name}.is_closed=?", false])
+    @total_issues_by_tracker = Issue.visible.count(:group => :tracker,
+                                            :include => [:project, :status, :tracker],
+                                            :conditions => cond)
   rescue ActiveRecord::RecordNotFound
     nil
   end

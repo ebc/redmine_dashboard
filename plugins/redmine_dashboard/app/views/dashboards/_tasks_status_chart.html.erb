@@ -1,0 +1,34 @@
+<div id="status_graph" style="width: 310px; height: 250px; margin: 8px auto; left: 0px;"></div> 
+
+<!-- Status Graph -->
+<script type="text/javascript">
+  (function () {
+    var
+      container = document.getElementById('status_graph'),
+      d1 = [[0, <%= @remaining_ratio %>]],
+      d2 = [[0, <%= @done_ratio %>]],         
+      graph;
+    
+    graph = Flotr.draw(container, [
+      { data : d1, label : 'Pendentes' },
+      { data : d2, label : 'Fechados' },          
+    ], {
+      HtmlText : false,
+      grid : {
+        verticalLines : false,
+        horizontalLines : false
+      },
+      xaxis : { showLabels : false },
+      yaxis : { showLabels : false },
+      pie : {
+        show : true, 
+        explode : 0
+      },
+      mouse : { track : true },
+      legend : {
+        position : 'se',
+        backgroundColor : '#D2E8FF'
+      }
+    });
+  })();
+</script>

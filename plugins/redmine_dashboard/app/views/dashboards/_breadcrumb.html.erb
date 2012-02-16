@@ -1,0 +1,12 @@
+<div id="breadcrumb">
+  <% links = breadcrumb_links %>
+  <% last = links.last %>
+  <% links.each do |link| %>    
+    <% unless link == last %>
+      <%= link %>
+      <span>»</span>
+    <% else %>
+      <%= @project ? @project : l(:label_project_all) %>      
+    <% end %>
+  <% end %>
+</div>

@@ -40,6 +40,40 @@ ol,ul {
   list-style-type: none;
 }
 
+p.pagination {
+  margin-top: 14px;
+}
+
+.pagination {
+  font-size: 90%;
+}
+
+table tr th {
+  padding: 3px 6px;
+  text-align: left;
+  font-family: 'DINBold',Arial,sans-serif;  
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 20px;
+}
+
+table tr td {
+  padding: 3px 6px;
+  font-family: Arial,sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 20px;
+}
+
+table tr td a {
+  padding: 3px 6px;
+  font-family: Arial,sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 20px;
+}
+
+
 input[type="submit"] {
   display: inline-block;
   cursor: pointer;
@@ -63,6 +97,8 @@ input[type="submit"] {
   vertical-align: middle;
   border-image: initial;
 }
+
+
 
 /** ========== Header ========== **/
 
@@ -219,8 +255,7 @@ input[type="submit"] {
   border: 1px solid #cbcbcb;
   background-color: #ffffff;
   margin: 0 auto;
-  width: 978px;
-  min-height: 799px;
+  width: 978px;  
   position: relative;
 }
 
@@ -395,23 +430,15 @@ input[type="submit"] {
   width: 200px;     
 }
 
-
-/**
-
 #detail #content #score-analysis-section .header-caption {
-  margin-top: 6px;
-  font-family: Arial,sans-serif;
-  font-size: 15px;
-  font-weight: normal;
-  line-height: 18px;   
+  margin: 14px 10px 14px 0;  
 }
-
 
 
 #detail #content #score-analysis-section table tr.alt {
   background-color: #F0F0F0;
 }
-**/
+
 
 #detail #content #score-analysis-section ul {
   width: 193px;

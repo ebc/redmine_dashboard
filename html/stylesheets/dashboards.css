@@ -219,8 +219,7 @@ input[type="submit"] {
   border: 1px solid #cbcbcb;
   background-color: #ffffff;
   margin: 0 auto;
-  width: 978px;
-  min-height: 1550px;
+  width: 978px;  
   position: relative;
 }
 
@@ -400,11 +399,27 @@ input[type="submit"] {
 }
 
 
-/**
 #detail #content #score-analysis-section table tr.alt {
   background-color: #F0F0F0;
 }
-**/
+
+table tr th {
+  padding: 3px 6px;
+  text-align: left;
+  font-family: 'DINBold',Arial,sans-serif;  
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 20px;
+}
+
+table tr td {
+  padding: 3px 6px;
+  font-family: Arial,sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 20px;
+}
+
 
 #detail #content #score-analysis-section ul {
   width: 193px;
