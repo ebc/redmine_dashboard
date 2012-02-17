@@ -1,5 +1,8 @@
-<div id="status_graph" style="width: 310px; height: 250px; margin: 8px auto; left: 0px;"></div> 
+<div id="status_graph_wrapper" style="margin: 8px auto; left: 0px;">
+  <div id="status_graph" style="width: 310px; height: 250px;"></div> 
+</div>
 
+<% if @remaining_ratio && @done_ratio %>
 <!-- Status Graph -->
 <script type="text/javascript">
   (function () {
@@ -26,9 +29,10 @@
       },
       mouse : { track : true },
       legend : {
-        position : 'se',
+        position : 'ne',
         backgroundColor : '#D2E8FF'
       }
     });
   })();
 </script>
+<% end %>

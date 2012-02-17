@@ -1,13 +1,13 @@
-<table class="list issues" style="margin-bottom: 14px;">
+<table class="list issues" style="margin-bottom: 14px; width: 636px;">
   <tbody>
     <tr style="background-color: #EEE;">
       <!--
       <th title="&quot;#&quot;">#</th>
       -->
-      <th title="&quot;Descrição&quot;">Descrição</th>      
-      <th title="&quot;Alterado&quot;" style="text-align: left;">Alterado</th>      
-      <th title="&quot;Situação&quot;">Situação</th>
-      <th title="&quot;Terminado&quot;">Terminado</th>
+      <th title="&quot;Assunto&quot;"><a href="<%= sort_url('subject') %>">Assunto</a></th>      
+      <th title="&quot;Alterado&quot;" style="text-align: left;"><a href="<%= sort_url('updated_on%3Adesc') %>">Alterado</a></th>      
+      <th title="&quot;Situação&quot;"><a href="<%= sort_url('status') %>">Situação</a></th>
+      <th title="&quot;Terminado&quot;"><a href="<%= sort_url('done_ratio') %>">Terminado</a></th>
     </tr>
   </tbody>
 
@@ -31,9 +31,8 @@
         <a href="<%= issue_path(issue) %>" target="_blank" style="font-size: 12px; font-family: Arial,sans-serif;"><%= issue.id %></a>        
       </td>
       -->
-      <td class="description" style="width: 80%; text-align: left; ">
-        <a href="<%= issue_path(issue) %>" target="_blank" style="font-size: 12px; font-family: Arial,sans-serif;"><%= truncate("#{issue}", 55) %></a>    
-         
+      <td class="subject" style="width: 80%; text-align: left; ">
+        <a href="<%= issue_path(issue) %>" target="_blank" style="font-size: 12px; font-family: Arial,sans-serif;"><%= truncate("#{issue.subject}", :lenght => 55) %></a>        
       </td>
       <td class="tracker" >
         <%= format_date(issue.updated_on) %>

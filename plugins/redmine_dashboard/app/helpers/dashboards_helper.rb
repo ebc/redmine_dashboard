@@ -2,58 +2,7 @@ module DashboardsHelper
   include ApplicationHelper
 
   ## TODO - Refactoring
-  ## Please, fix this code with native Query/QueryColumns class and remove duplicated lines
-
-  def all_issues_count(params = {:from => nil, :to => nil})
-    if params[:from].present? && params[:to].present?
-      Issue.find(:all, :conditions => ["updated_on BETWEEN ? AND ?", params[:from], params[:to]]).count
-    else
-      Issue.find(:all).count    
-    end 
-  end
-
-  def all_issues_by_project_count(project_id, params = {:from => nil, :to => nil})
-    if params[:from].present? && params[:to].present?
-      Issue.find(:all, :conditions => ["project_id = ? AND updated_on BETWEEN ? AND ?", project_id, params[:from], params[:to]]).count
-    else
-      Issue.find(:all, :conditions => ["project_id = ?", project_id]).count    
-    end 
-  end
-
-  def all_issues(params = {:from => nil, :to => nil, :limit => 25, :offset => 0})        
-    if params[:from].present? && params[:to].present?
-      Issue.find(:all,                  
-                  :joins => [:tracker],
-                  :conditions => ["updated_on BETWEEN ? AND ?", params[:from], params[:to]],
-                  :order => "#{Issue.table_name}.updated_on desc",
-                  :limit => params[:limit],
-                  :offset => params[:offset])
-    else
-      Issue.find(:all,
-                  :limit => params[:limit],
-                  :offset => params[:offset],
-                  :joins => [:tracker],
-                  :order => "#{Issue.table_name}.updated_on desc")
-    end
-  end 
-
-  def all_issues_by_project(project_id, params = {:from => nil, :to => nil, :limit => 25, :offset => 0})        
-    if params[:from].present? && params[:to].present?
-      Issue.find(:all,                  
-                  :joins => [:tracker],
-                  :conditions => ["project_id = ? AND updated_on BETWEEN ? AND ?", project_id, params[:from], params[:to]],
-                  :order => "#{Issue.table_name}.updated_on desc",
-                  :limit => params[:limit],
-                  :offset => params[:offset])
-    else
-      Issue.find(:all,
-                  :conditions => ["project_id = ?", project_id],
-                  :limit => params[:limit],
-                  :offset => params[:offset],
-                  :joins => [:tracker],
-                  :order => "#{Issue.table_name}.updated_on desc")
-    end
-  end 
+  ## Please, fix this code with native Query/QueryColumns class and remove duplicated lines    
 
   def render_breadcrumb
     links = []
@@ -164,4 +113,9 @@ module DashboardsHelper
 
     project_values
   end
+
+  def sort_url(column)
+    "/dashboards?from=#{@from}&to=#{@to}&project_id=#{params[:project_id]}&sort=#{column}%2Cid%3Adesc"    
+  end
+
 end

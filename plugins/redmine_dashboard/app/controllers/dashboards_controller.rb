@@ -8,55 +8,44 @@ class DashboardsController < ApplicationController
   helper :projects    
   helper :queries
   helper :timelog
+  helper :sort  
   include DashboardsHelper
   include QueriesHelper  
   include IssuesHelper
+  include SortHelper
   include TimelogHelper
   unloadable
 
   before_filter :find_project, :only => [:index]  
+  rescue_from Query::StatementInvalid, :with => :query_statement_invalid
 
   # TODO - Refactoring
   def index
     # Retrieve date range
     retrieve_date_range 
 
-    if @project
-      # Load issues data table 
-      @per_page = params[:per_page].present? ? params[:per_page].to_i : per_page_option    
-      @issue_count = all_issues_by_project_count(@project.id, {:from => @from, :to => @to})
-      @issue_pages = Paginator.new self, @issue_count, @per_page, params[:page]          
-      @issues = all_issues_by_project(@project.id, { :from => @from, :to => @to, :offset => @issue_pages.current.offset, :limit => @per_page }) 
-      
-      
-      # Calculate done ratio   
-      issues_done_ratio = IssuesDashboard.issues_by_project_done_ratio(@project.id, @from, @to)
-      @total = issues_done_ratio[:total]
-      @done_ratio = issues_done_ratio[:done_ratio]
-      @remaining_ratio = issues_done_ratio[:remaining_ratio]
+    retrieve_query
+    sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
+    sort_update(@query.sortable_columns)
+    if @query.valid?
+      @limit = per_page_option
 
-      # Calculate total of issues grouped by start date    
-      issues_by_date_count = IssuesDashboard.issues_by_project_and_date_count(@project.id, @from, @to)  
-      @open_issues = issues_by_date_count[:open_issues_count]
-      @closed_issues = issues_by_date_count[:closed_issues_count]                 
-    else
-      # Load issues by project data table 
-      @per_page = params[:per_page].present? ? params[:per_page].to_i : per_page_option    
-      @issue_count =  all_issues_count({:from => @from, :to => @to})
-      @issue_pages = Paginator.new self, @issue_count, @per_page, params[:page]          
-      @issues = all_issues({ :from => @from, :to => @to, :offset => @issue_pages.current.offset, :limit => @per_page })    
-    
-      # Calculate done ratio by project
-      issues_done_ratio = IssuesDashboard.issues_done_ratio(@from, @to)
-      @total = issues_done_ratio[:total]
-      @done_ratio = issues_done_ratio[:done_ratio]
-      @remaining_ratio = issues_done_ratio[:remaining_ratio]
-
-      # Calculate total of issues grouped by project and start date   
-      issues_by_date_count = IssuesDashboard.issues_by_date_count(@from, @to)  
-      @open_issues = issues_by_date_count[:open_issues_count]
-      @closed_issues = issues_by_date_count[:closed_issues_count]       
-    end
+      @issue_count = @query.issue_count
+      @issue_pages = Paginator.new self, @issue_count, @limit, params['page']
+      @offset ||= @issue_pages.current.offset
+      @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
+                              :order => sort_clause,
+                              :offset => @offset,
+                              :limit => @limit)           
+           
+      @done_ratio = 0.0
+      @remaining_ratio = 0.0
+      all_issues = @query.issues            
+      unless all_issues.empty?
+        @done_ratio = all_issues.inject(0) { |sum, item| sum + item.done_ratio } / all_issues.count.to_f
+        @remaining_ratio = 100.0 - @done_ratio
+      end                    
+    end   
 
     # Load project tree for select
     @project_values = select_project_values    
