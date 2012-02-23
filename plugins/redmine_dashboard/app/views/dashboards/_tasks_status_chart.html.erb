@@ -27,12 +27,19 @@
         show : true, 
         explode : 0
       },
-      mouse : { track : true },
+      mouse : { 
+        track : true,
+        trackFormatter: formatRadio,      
+      },
       legend : {
         position : 'ne',
         backgroundColor : '#D2E8FF'
       }
     });
   })();
+
+  function formatRadio(obj) { 
+    return obj.series["label"] + ": " + Math.round(obj.y); 
+  }
 </script>
 <% end %>

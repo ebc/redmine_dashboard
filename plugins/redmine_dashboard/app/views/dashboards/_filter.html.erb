@@ -7,15 +7,13 @@
       </li>
       <li>
         <div class="inputs">
-          <ul id="projectmenu" class="mcdropdown_menu"> 
-          <% @project_values.each do |item| %>
-            <li rel="<%= item[1] %>">
-              <%= item[0] %>
-            </li>          
-          <% end %>
-          </ul>
-
-          <input type="text" name="project_id" id="projects" value=""/>         
+        <select id="projects" name="project_id" onchange="this.form.submit();" class="select-small" style="vertical-align: top; width: 150px;">
+        <option value="" <%= 'selected="selected"' unless @project %> >Todos</option>
+        <% @project_values.each do |item| %>
+        <option value="<%= item[1] %>" <%= 'selected="selected"' if @project && @project.id == item[1].to_i  %> ><%= item[0] %></option>
+        <% end %>
+        </select>
+        
         </div>
       </li>
       <li>
@@ -46,21 +44,6 @@
       </li>                         
   </ul>
 <% end %><!-- end form filtro -->
-
-<script type="text/javascript"> 
-$(document).ready(function (){ 
-    $("#projects").mcDropdown("#projectmenu");     
-    <% if @project %>
-      var dd = $("#projects").mcDropdown();
-      dd.setValue(<%= @project.id %>);      
-    <% end %>
-
-    $(".mcdropdown").css("width", "150px");
-    // var input = $(".mcdropdown input[type='text']")[0];
-    // $(input).css("width", "150px");
-    // $(input).attr("width", "150px");
-}); 
-</script>
 
 <script>
   $(function() {
