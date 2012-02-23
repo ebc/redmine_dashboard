@@ -1,3 +1,4 @@
 # English strings go here for Rails i18n
 en:
   label_dashboards_unconfigured: You have not configured Dashboards yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool.
+  label_between: between

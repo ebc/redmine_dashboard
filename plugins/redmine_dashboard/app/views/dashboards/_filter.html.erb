@@ -1,5 +1,5 @@
 <% form_tag({:controller => controller_name, :action => action_name, :project_id => @project, :issue_id => @issue}, :method => :get, :id => 'query_form') do %>  
-
+  <input type="hidden" name="set_filter" value="1"/>
   <ul>                          
       <li><span class="title"><div class="triangle"></div>Filtro<div class="inverse_triangle"></div></span></li>
       <li>

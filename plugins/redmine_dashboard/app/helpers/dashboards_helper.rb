@@ -2,8 +2,6 @@ module DashboardsHelper
   include ApplicationHelper
 
   ## TODO - Refactoring
-  ## Please, fix this code with native Query/QueryColumns class and remove duplicated lines    
-
   def render_breadcrumb
     links = []
     links << link_to(l(:label_project_all), {:project_id => nil, :issue_id => nil})
@@ -116,6 +114,40 @@ module DashboardsHelper
 
   def sort_url(column)
     "/dashboards?from=#{@from}&to=#{@to}&project_id=#{params[:project_id]}&sort=#{column}%2Cid%3Adesc"    
+  end
+
+  # Retrieve query from session or build a new query
+  def retrieve_dashboards_query
+    if !params[:query_id].blank?
+      cond = "project_id IS NULL"
+      cond << " OR project_id = #{@project.id}" if @project
+      @query = DashboardsQuery.find(params[:query_id], :conditions => cond)
+      raise ::Unauthorized unless @query.visible?
+      @query.project = @project
+      session[:dashboards_query] = {:id => @query.id, :project_id => @query.project_id}
+      sort_clear
+    else
+      if api_request? || params[:set_filter] || session[:dashboards_query].nil? || session[:dashboards_query][:project_id] != (@project ? @project.id : nil)
+        # Give it a name, required to be valid
+        @query = DashboardsQuery.new(:name => "_")
+        @query.project = @project if @project        
+        if params[:fields] || params[:f]
+          @query.filters = {}
+          @query.add_filters(params[:fields] || params[:f], params[:operators] || params[:op], params[:values] || params[:v])
+        else
+          @query.available_filters.keys.each do |field|
+            @query.add_short_filter(field, params[field]) if params[field] && params[field] != ""
+          end
+        end
+        @query.group_by = params[:group_by]
+        @query.column_names = params[:c] || (params[:query] && params[:query][:column_names])
+        session[:dashboards_query] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by, :column_names => @query.column_names}
+      else
+        @query = DashboardsQuery.find_by_id(session[:dashboards_query][:id]) if session[:dashboards_query][:id]
+        @query ||= DashboardsQuery.new(:name => "_", :project => @project, :filters => session[:dashboards_query][:filters], :group_by => session[:dashboards_query][:group_by], :column_names => session[:dashboards_query][:column_names])
+        @query.project = @project
+      end
+    end
   end
 
 end

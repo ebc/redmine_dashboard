@@ -17,16 +17,20 @@ class DashboardsController < ApplicationController
   unloadable
 
   before_filter :find_project, :only => [:index]  
-  rescue_from Query::StatementInvalid, :with => :query_statement_invalid
+  # rescue_from Query::StatementInvalid, :with => :query_statement_invalid
 
   # TODO - Refactoring
   def index
     # Retrieve date range
-    retrieve_date_range 
-
-    retrieve_query
+    retrieve_date_range         
+    retrieve_dashboards_query
+    if @from && @to            
+      @query.add_filters(["updated_on"], {"updated_on" => "b"}, {"updated_on"=>[@from, @to]})      
+    end       
+    
     sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
     sort_update(@query.sortable_columns)
+    
     if @query.valid?
       @limit = per_page_option
 
@@ -44,9 +48,9 @@ class DashboardsController < ApplicationController
       unless all_issues.empty?
         @done_ratio = all_issues.inject(0) { |sum, item| sum + item.done_ratio } / all_issues.count.to_f
         @remaining_ratio = 100.0 - @done_ratio
-      end                    
+      end           
     end   
-
+    
     # Load project tree for select
     @project_values = select_project_values    
     

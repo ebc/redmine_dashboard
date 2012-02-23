@@ -1,3 +1,4 @@
+<% if @issues %>
 <table class="list issues" style="margin-bottom: 14px; width: 636px;">
   <tbody>
     <tr style="background-color: #EEE;">
@@ -24,6 +25,7 @@
 
   <tbody> 
     <% reset_cycle %>
+    
     <% @issues.each do |issue| %>         
     <tr id="issue-<%= issue.id %>" class="<%= cycle('', 'alt') %>" >
       <!--
@@ -44,11 +46,12 @@
         <%= "#{issue.done_ratio}%" %>
       </td>
     </tr>  
-    <% end %>         
+    <% end %>           
   </tbody>     
 </table>
 <p class="pagination">
   <%= pagination_links_full @issue_pages, @issue_count %>
 </p>
+<% end %>  
 
 

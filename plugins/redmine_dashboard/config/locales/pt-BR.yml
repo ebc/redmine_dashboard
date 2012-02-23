@@ -1,3 +1,4 @@
 --- 
 pt-BR: 
   label_backlogs_unconfigured: "Voc\xC3\xAA n\xC3\xA3o configurou os Dashboards ainda. Por Favor v\xC3\xA1 em, {{administration}} > {{plugins}}, e selecione {{configure}}. Uma vez definidos os campos, retorne para esta p\xC3\xA1gina para come\xC3\xA7ar a usar a ferramenta."
+  label_between: entre

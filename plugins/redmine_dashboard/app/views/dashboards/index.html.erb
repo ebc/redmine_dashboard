@@ -30,7 +30,10 @@
           <div id="score-analysis-section">
             <div class="score-section">
               <h2>Pendentes</h2>
-              <div class="score" style=""><%= @remaining_ratio.nan? ? "0" : number_to_percentage(@remaining_ratio, :precision => 0) %></div> 
+              <div class="score" style="">    
+                <% @remaining_ratio ||= 0.0 %>
+                <%= @remaining_ratio.nan? ? "0" : number_to_percentage(@remaining_ratio, :precision => 0) %>
+              </div> 
             </div>    
             <% if @total_hours.present? %>                      
             <div class="score-section" >
