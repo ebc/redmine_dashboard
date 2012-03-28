@@ -19,8 +19,13 @@
     
 
     <%= stylesheet_link_tag 'boilerplate.css', :plugin => 'redmine_dashboard'%>
+    <!--[if !IE 7]>   
     <%= stylesheet_link_tag 'fonts.css', :plugin => 'redmine_dashboard'%>    
+    <![endif]-->      
     <%= stylesheet_link_tag 'dashboards.css', :plugin => 'redmine_dashboard'%>
+    <!--[if lt IE 9]>   
+    <%= stylesheet_link_tag 'dashboards.ie.css', :plugin => 'redmine_dashboard'%>
+    <![endif]-->      
     <%= stylesheet_link_tag 'jquery-ui-1.8.12.custom.css', :plugin => 'redmine_dashboard'%>    
 
   </head>

@@ -73,6 +73,10 @@ table tr td a {
   line-height: 20px;
 }
 
+table tr.alt {
+  background-color: #F0F0F0;
+}
+
 
 input[type="submit"] {
   display: inline-block;
@@ -438,12 +442,6 @@ img.calendar-trigger {
   font-size: 12px;
   margin: 14px 10px 14px 0;  
 }
-
-
-#detail #content #score-analysis-section table tr.alt {
-  background-color: #F0F0F0;
-}
-
 
 #detail #content #score-analysis-section ul {
   width: 193px;

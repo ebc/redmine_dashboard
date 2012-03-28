@@ -498,3 +498,29 @@ table tr td {
   margin-right: 5px;
   float: left;
 }
+
+
+/** ========== Shappes ========== **/
+.blue-circle {
+  display: block;
+  height: 10px;
+  width: 10px;
+  background-color: #00a8f0;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+  margin: 4px 14px;
+}
+
+.red-circle {
+  display: block;
+  height: 10px;
+  width: 10px;
+  background-color: #cb4b4b;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
+  margin: 4px 14px;
+}
