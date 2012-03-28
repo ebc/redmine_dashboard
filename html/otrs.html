@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title>Controle de Tarfas da SUCOM</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Redmine Dashboards - Atendimento ao Usuário - OTRS" />
+    <meta name="keywords" content="team,project,statistics,status,tracker,scrum,agile,plugin" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/boilerplate.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/fonts.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/dashboards.css">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="javascripts/flotr2.ie.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="javascripts/flotr2.min.js"></script>
+  </head>
+  <body>
+    <div id="header-wrapper" class="public">
+      <div id="header" class="clearfix">      
+        <div id="header-glow" style="opacity: 0; "></div>
+        <div id="header-glow"></div>
+
+        <div id="logo-notif">
+          <a id="header-dashboard" href="/"><img id="logo" src="images/header-logo.png" alt="Redmine Dashboards"></a>
+        </div> <!-- end logo-notif -->
+
+        <div class="header-title">          
+          <span>Coordenação de Atendimento</span>          
+        </div> <!-- end header-title -->
+        <div id="menu">
+          <ul>            
+            <li class="first"><a class="selected" href="#">Diário</a></li>            
+            <li class="last"><a class="" href="#">Planejamento</a></li>
+          </ul>
+        </div> 
+        
+        <!-- end menu -->      
+      </div><!-- end header -->
+    </div><!-- end header-wrapper -->
+
+    <div id="main-wrapper" class="public">
+      <div id="main">
+        <div id="container" class="clearfix">
+            <div id="profile">
+              <div id="info" class="clearfix">
+                <h1>Atendimento ao Usuário</h1>
+                <div id="breadcrumb">                  
+                  <a href="#">Helpdesk</a>
+                  <span>»</span>
+                  <span>Fornecedores (Diário)</a>
+                </div>
+                <br class="clearer">
+              </div>
+              <div id="detail">
+                <div id="detail-wrapper">                  
+                  <div id="navigation">
+                    <form id="form_filtro">
+                      <ul>                          
+                          <li><span class="title"><div class="triangle"></div>Filtro<div class="inverse_triangle"></div></span></li>                          
+                          <li>
+                            <span>Intervalo</span>
+                          </li>                            
+                          <li>
+                            <table class="filter_table">
+                              <tr>
+                                <td class="label">Início</td>
+                                <td><input type="text" size="9"></td>
+                              </tr>
+                              <tr>
+                                <td class="label">Fim</td>
+                                <td><input type="text" size="9"></td>
+                              </tr>
+                            </table>                        
+                          </li>                           
+                          <li>
+                            <div class="inputs">
+                              <input type="submit" value="Aplicar" style="width: 152px;">
+                            </div>
+                          </li>         
+
+                      </ul>
+                    </form><!-- end form filtro -->
+                  </div><!-- end navitation -->
+                  
+                  <div id="content">
+                    <div class="tab score-analysis" style="display: block;">                        
+                      <div id="score-analysis-section">
+                        <div class="chart-section">
+                          <h2>Status</h2>
+                          <div id="status_graph" style="width: 310px; height: 250px; margin: 8px auto; left: 0px;"></div> 
+                        </div>                          
+                        <div class="chart-section" style="float: right;">
+                          <h2>Criticidade</h2>
+                          <div id="tasks_graph" style="width: 310px; height: 250px; margin: 8px auto; left: 0px;"></div> 
+                        </div>
+                      </div><!-- score-analysis-section -->
+                    </div>
+                    <hr>              
+                    <div class="tab score-analysis" style="display: block;">                                                
+                      <div id="score-analysis-section">                                                  
+                        <div class="score-section" >
+                          <h2>Em Execução</h2>
+                          <div class="score" style="">50</div> 
+                        </div>
+                        
+                        <div class="score-section">
+                          <h2>Abertos</h2>
+                          <div class="score" style="border-right: 0;">64</div> 
+                        </div>
+                        <div class="score-section">
+                          <h2>Fechados</h2>
+                          <div class="score" style="">29</div> 
+                        </div>                          
+                        
+                      </div><!-- score-analysis-section -->
+                    </div>
+                    <hr>                                      
+                   
+                      <div class="tab score-analysis" style="display: block;">                                                
+                        <div id="score-analysis-section">
+                          <div class="score-section">                            
+                            
+    <table class="list issues" style="margin-bottom: 50px;">
+      <tbody>
+          <tr style="background-color: #EEE;">
+            <th title="&quot;Status&quot;">
+            Estado
+          </th>
+          <th title="&quot;Tipo&quot;">
+            Tipo
+          </th>
+          <th title="&quot;Fila&quot;">
+            Fila
+          </th>
+          <th title="&quot;Descri&ccedil;&atilde;o&quot;">
+            Descri&ccedil;&atilde;o
+          </th>
+         
+      </tr></tbody><tfoot>
+        <tr style="background-color: #EEE; font-weight: bold; ">
+          <td colspan="4">
+            <span style="font-family: DINBold,Arial,sans-serif;">432 tickets</span>
+          </td>          
+        </tr>
+      </tfoot>
+
+      <tbody> 
+        <tr id="issue-116" class="">
+          <td class="id" style="">
+            <span class='blue-circle'></span>
+          </td>
+          <td class="project">
+            <a href="/issues/116">Infraestrutura</a>
+          </td>
+          <td class="status">
+            <a href="/issues/116">Helpdesk::Fornecedores</a>
+          </td>
+          <td class="priority" style="width: 100%; text-align: left;">
+            <a href="/issues/116">Re: Sistema de Busca do Clipping</a>
+          </td>          
+        </tr>   
+
+
+      </tbody>     
+  </table>
+
+
+
+
+
+                          </div>                                                   
+                        </div><!-- score-analysis-section -->
+                      </div>
+                    </div><!-- tab score-analysis -->
+                  </div><!-- end content -->
+                </div><!-- end detail wrapper -->
+              </div><!-- end detail -->
+            </div> <!-- end profile -->
+        </div> <!-- end container -->
+      </div> <!-- end main -->
+    </div>
+    
+    <div id="footer">
+      <div id="footer-wrapper">
+        <div id="footer-content">
+            <div class="content-block">Powered by Redmine</div>            
+        </div>
+      </div>
+    </div>
+    <!-- Status Graph -->
+    <script type="text/javascript">
+      (function () {
+        var
+          container = document.getElementById('status_graph'),
+          d1 = [[0, 50]],
+          d2 = [[0, 64]],   
+          d3 = [[0, 29]],      
+          graph;
+        
+        graph = Flotr.draw(container, [
+          { data : d1, label : 'Em Execução' },          
+          { data : d3, label : 'Abertos' }, 
+          { data : d2, label : 'Fechados' }      
+        ], {
+          HtmlText : false,
+          grid : {
+            verticalLines : false,
+            horizontalLines : false
+          },
+          xaxis : { showLabels : false },
+          yaxis : { showLabels : false },
+          pie : {
+            show : true, 
+            explode : 0
+          },
+          mouse : { track : true },
+          legend : {
+            position : 'se',
+            backgroundColor : '#D2E8FF'
+          }
+        });
+      })();
+    </script>
+
+    <!-- Tasks Graph -->
+    <script type="text/javascript">
+
+      (function () {
+        var
+          container = document.getElementById('tasks_graph'),
+          d1 = [[10, 1]],
+          d2 = [[9, 2]],         
+          d3 = [[7, 3]],         
+          d4 = [[5, 4]],         
+          d5 = [[5, 5]],         
+          d6 = [[4, 6]],                   
+          graph;
+        
+          graph = Flotr.draw(container, [
+            { data : d1, label : 'Muito Alta' },
+            { data : d2, label : 'Alta' },          
+            { data : d3, label : 'Normal' },          
+            { data : d4, label : 'Baixa' },          
+            { data : d5, label : 'Muito Baixa' },          
+            
+          ], {
+          HtmlText : false,
+          grid : {
+            verticalLines : false,
+            horizontalLines : false
+          },
+          xaxis : { showLabels : false },
+          yaxis : { showLabels : false },
+          pie : {
+            show : true, 
+            explode : 0
+          },
+          mouse : { track : true },
+          legend : {
+            position : 'se',
+            backgroundColor : '#D2E8FF'
+          }
+        });
+      })();
+    </script>
+  </body>  
+</html>
